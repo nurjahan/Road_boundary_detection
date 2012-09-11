@@ -2,7 +2,7 @@ function [probability_i4,im1,small_line,line_position1,normalize_polar,pl_coordi
 
 max_Or_1=max_Or';
 probability_i1_1=probability_i1';
-
+%%max_theta_degree1 = radtodeg(max_theta); %%image X Y
 p=1;
 k=1;
 im1=im;
@@ -102,6 +102,7 @@ for t=1:no_of_orient
 		d=sqrt(x^2+y^2);
 		if y<0
 			dis=-d;
+			d=-d;
 		else
 			dis=d;
 		end
@@ -129,7 +130,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%% normalize polar coordinae %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%%%%%%%%%%%%%%%%%%% technique 1 %%%%%%%%%%%%%%%%%%
 max_d=max(pl_coordinate(:,1));
 max_theta=max(pl_coordinate(:,2));
 min_d=min(0,min(pl_coordinate(:,1)));
@@ -137,12 +138,37 @@ min_theta=min(0,min(pl_coordinate(:,2)));
 normalize_polar(:,1) = (pl_coordinate(:,1)- min_d) ./ (max_d-min_d);
 normalize_polar(:,2) = (pl_coordinate(:,2)- min_theta) ./ (max_theta-min_theta);
 
+%%%%%%%%%%%%%%%%%% technique 2 %%%%%%%%%%%%%%%%
+% [h,w,n] = size(im);
+% idiag = norm([h w]);
+% normalize_polar(:,1) = pl_coordinate(:,1)./idiag ;
+% normalize_polar(:,2) = pl_coordinate(:,2)./360;
+% if normalize_polar(:,2)==0
+	% normalize_polar(:,2)==1;
+% end	
+
+%%%%%%%%%%%%%%% technique 3 %%%%%%%%%%%%%%%%
+% cv=cov(pl_coordinate);
+% Icv=inv(cv);
+% [hpc wpc]=size(pl_coordinate);
+% %%for l=1:hpc
+% l=1:hpc;
+% normalize_polar(l,1:2)=pl_coordinate(l,1:2)*Icv;
+% %%end	
+
+
 fid1 = fopen('normalize_polar.txt', 'wt'); % Open for writing
 	for i=1:size(normalize_polar,1)
 		fprintf(fid1, '%d ', normalize_polar(i,:));
 		fprintf(fid1, '\n');
 	end
 	fclose(fid1);
+fid1 = fopen('pl_coordinate.txt', 'wt'); % Open for writing
+	for i=1:size(pl_coordinate,1)
+		fprintf(fid1, '%d ', pl_coordinate(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);	
 fid1 = fopen('line_position1.txt', 'wt'); % Open for writing
 	for i=1:size(line_position1,1)
 		fprintf(fid1, '%d ', line_position1(i,:));
@@ -170,9 +196,85 @@ figure(Hf);
 imshow(im1);
 hold on;
 
-[Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position1,small_line,Hdendro,Hf);
+%%%%%%%%%%%%%%%%%%%%%%%%5 test for image 2%%%%%%%%%%%%%%%%%%%%5
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 190;
+% yt(1) = 80;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
 
-[variance]=variance_calculation(mem,normalize_polar);
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 87;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+% lineLength = 600;
+
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 89;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 90;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 91;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 92;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 93;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+% lineLength = 600;
+% angle = 157;
+% xt(1) = 180;
+% yt(1) = 94;
+% xt(2) = xt(1) + lineLength * cosd(angle);
+% yt(2) = yt(1) + lineLength * sind(angle);
+% hold on; % Don't blow away the image.
+% plot(xt, yt, 'LineWidth',2);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+[Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position1,small_line,Hdendro,Hf);
+%%save mem;
+[variance]=variance_calculation(mem,normalize_polar,pl_coordinate);
 
 [hv wv]=size(mem);
 
@@ -182,5 +284,5 @@ percentage=20;
          % 'Min',0,'Max',100,'Value',20,...
          % 'Position', [810 40 120 20],'Tag', 'thresholdCls','Callback', {@threshold_cluster});   % Uses cell array function handle callback
                                     % % % Implemented as a subfunction with an argument
-show_top_clusters(cluster_confidence,mem,line_position1,im,percentage,HtopCls);
+show_top_clusters(cluster_confidence,mem,line_position1,im,percentage,HtopCls,pl_coordinate);
 click_dendro(mem,cluster_confidence,line_position1,small_line,cluster_xy,Hdendro,Hf,Zsin1);

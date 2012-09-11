@@ -35,7 +35,7 @@ while x < beta1
 	t = x;
 	y = 0;
 	if t ~= 0
-		y =  ((v) .* (n - 1))./chi2pdf(x,deg_fr) ;
+		y =  ((v) .* (n - 1))./ chi2pdf(x,deg_fr);
 	end
 	area1=area1+y;
 	x=x+stepChi;
@@ -53,18 +53,9 @@ while x < alpha1 & v ~= 0
 end
 area =area.*stepT;
        
-area2 = 0;        
-x = epsilon0; %% x=X in matlab
-while x < epsilon1
-	y = normpdf(x);        
-	area2 =area2+ (y);        
-	x =x+stepNormal;
-end
-normal_x=area2;
-area2 =area2.* stepNormal;
-
-total_area=area .* area1 .* area2;
-
+total_area_=(area .* area1); %%.* area2;
+total_area=total_area_;
+%%total_area=area1;
 %%%%%%%%%%%%% for plotting %%%%%%%%%%%%%%
 
 % han=figure;
