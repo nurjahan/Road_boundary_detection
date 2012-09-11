@@ -2,7 +2,7 @@ function [probability_i4,im1,small_line,line_position1,normalize_polar,pl_coordi
 
 max_Or_1=max_Or';
 probability_i1_1=probability_i1';
-%%max_theta_degree1 = radtodeg(max_theta); %%image X Y
+
 p=1;
 k=1;
 im1=im;
