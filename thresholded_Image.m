@@ -18,7 +18,7 @@ else
 end	
 
 
-[probability_i4,im_th,small_line,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_th,h,w,Hf,Hdendro,HtopCls);
+[probability_i4,im_th,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_th,h,w,Hf,Hdendro,HtopCls);
 
 %%figure(Hf);
 %%imshow(im_th);

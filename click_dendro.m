@@ -1,4 +1,4 @@
-function click_dendro(mem,normalize_clsCon,line_position,small_line,cluster_xy,Hdendro,Hf,Zsin1)
+function click_dendro(mem,normalize_clsCon,line_position,cluster_xy,Hdendro,Hf,Zsin1)
 
 [nh nw]=size(Zsin1);
 h_dendro=max(Zsin1(:,3));
@@ -28,8 +28,8 @@ while  keypress=='y'
 
 	x1=line_position(mem{min_dif},1);
 	y1=line_position(mem{min_dif},2);
-	x2=small_line(mem{min_dif},1);
-	y2=small_line(mem{min_dif},2);
+	%%x2=small_line(mem{min_dif},1);
+	%%y2=small_line(mem{min_dif},2);
 	
 	%%top_clsAdd=find(normalize_clsCon==1)
 	%%top_clusterX=line_position(mem{top_clsAdd},1);

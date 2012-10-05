@@ -12,8 +12,8 @@ function [probability,probability_i1,max_theta_degree,im1] = pr_BCT(im,radius,no
 %		probability		size [h,w] containg probability of pixel boundary 
 
 
-%%beta=[-4.50 1.9072 1.2478 1.3107 3.6687]; %%beta from logistic fits with the help of training image set
-beta=[-4.50 2.9072 1.2478 1.3107 3.6687];
+beta=[-4.50 1.9072 1.2478 1.3107 3.6687]; %%beta from logistic fits with the help of training image set
+%%beta=[-4.50 2.9072 1.2478 1.3107 3.6687];
 [bright_G,gtheta] = B(im,radius,no_of_orient,nbins);
 [color_G,gtheta] = C(im,radius,no_of_orient,nbins);
 [texture_G,gtheta] = T(im,radius,no_of_orient,nbins);
@@ -44,12 +44,19 @@ max_theta=(max_Or-1)/no_of_orient*pi;
 max_theta_degree = radtodeg(max_theta); %%normal X-Y
 probability_i = nonmax_Subpression1(max(0,max_G),max_theta); 
 
+
+fid1 = fopen('probability_i.txt', 'wt'); % Open for writing
+	for i=1:size(probability_i,1)
+		fprintf(fid1, '%d ', probability_i(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);
 probability_i(1:4,:)=0;
 probability_i(h-4:h,:)=0;
 probability_i(:,1:4)=0;
 probability_i(:,w-4:w)=0;
-probability_i(1:4,:)=0
-probability_i(200,:)=0
+probability_i(1:4,:)=0;
+probability_i(200,:)=0;
 
 %%probability_i1=(probability_i>0);
 probability_i1=(probability_i>.3);
@@ -85,42 +92,43 @@ probability_i1=(probability_i>.3);
 	fclose(fid1);	
 	
 	
-	[probability_i4,im1,small_line,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_i1,h,w,Hf,Hdendro,HtopCls); 
+	[probability_i4,im1,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_i1,h,w,Hf,Hdendro,HtopCls); 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% saving output as file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-	fid1 = fopen('line_position1.txt', 'wt'); % Open for writing
-	for i=1:size(line_position1,1)
-		fprintf(fid1, '%d ', line_position1(i,:));
-		fprintf(fid1, '\n');
-	end
-	fclose(fid1);
-	fid1 = fopen('pl_coordinate.txt', 'wt'); % Open for writing
-	for i=1:size(pl_coordinate,1)
-		fprintf(fid1, '%d ', pl_coordinate(i,:));
-		fprintf(fid1, '\n');
-	end
-	fclose(fid1);
+	% fid1 = fopen('line_position1.txt', 'wt'); % Open for writing
+	% for i=1:size(line_position1,1)
+		% fprintf(fid1, '%d ', line_position1(i,:));
+		% fprintf(fid1, '\n');
+	% end
+	% fclose(fid1);
+	% fid1 = fopen('pl_coordinate.txt', 'wt'); % Open for writing
+	% for i=1:size(pl_coordinate,1)
+		% fprintf(fid1, '%d ', pl_coordinate(i,:));
+		% fprintf(fid1, '\n');
+	% end
+	% fclose(fid1);
 	
-	fid1 = fopen('small_line.txt', 'wt'); % Open for writing
-	for i=1:size(small_line,1)
-		fprintf(fid1, '%d ', small_line(i,:));
-		fprintf(fid1, '\n');
-	end
-	fclose(fid1);
+	% fid1 = fopen('small_line.txt', 'wt'); % Open for writing
+	% for i=1:size(small_line,1)
+		% fprintf(fid1, '%d ', small_line(i,:));
+		% fprintf(fid1, '\n');
+	% end
+	% fclose(fid1);
 	
-	fid1 = fopen('normalize_polar.txt', 'wt'); % Open for writing
-	for i=1:size(normalize_polar,1)
-		fprintf(fid1, '%d ', normalize_polar(i,:));
-		fprintf(fid1, '\n');
-	end
-	fclose(fid1);
+	% fid1 = fopen('normalize_polar.txt', 'wt'); % Open for writing
+	% for i=1:size(normalize_polar,1)
+		% fprintf(fid1, '%d ', normalize_polar(i,:));
+		% fprintf(fid1, '\n');
+	% end
+	% fclose(fid1);
 	
 	
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
 probability=probability_i4;
+%%imshow(probability)
 
 
 

@@ -10,14 +10,17 @@ for i=1:w
 	
 	k=2:wm;
 	dif(k,1)=sort_pc(k)-sort_pc(k-1);
+	%%dif(k,1)=sqrt((pc(k)-pc(k-1)).^2);
 	[sortElem,sortIndx] = sort(pc);
 	update_elem=[];
 	update_elem(1,1)=sortIndx(1);
+	%%update_elem(1,1)=1;
 	for j=2:wm
 		if (dif(j,1)<= .3170) %%& (pc_ang(sortIndx(j)))==pc_ang(sortIndx(j-1))) %%.7071  %%.3170 
 			update_elem(j,1)=update_elem(j-1,1);
 		else
 			update_elem(j,1)=sortIndx(j);
+			%%update_elem(j,1)=j;
 		end
 	end
 	address=elm(update_elem);

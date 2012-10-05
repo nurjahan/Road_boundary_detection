@@ -23,7 +23,7 @@ load('mem.MAT');
 disp('mem:');
 disp('image:');
 disp(im(1,1,1));
-show_top_clusters(cluster_confidence,mem,line_position1,im,percentage,HtopCls)
+show_top_clusters(cluster_confidence,mem,line_position1,im,percentage,HtopCls,Hf)
 
 %%[probability_i4,im_th,small_line,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_th,h,w,Hf,Hdendro,HtopCls);
 

@@ -1,8 +1,7 @@
-function [probability_i4,im1,small_line,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_i1,h,w,Hf,Hdendro,HtopCls)
-
+function [probability_i4,im1,line_position1,normalize_polar,pl_coordinate]=polar_coordinate(im,no_of_orient,max_Or,max_theta_degree,probability_i1,h,w,Hf,Hdendro,HtopCls)
+probability_i4=probability_i1; %% extra added
 max_Or_1=max_Or';
 probability_i1_1=probability_i1';
-%%max_theta_degree1 = radtodeg(max_theta); %%image X Y
 p=1;
 k=1;
 im1=im;
@@ -18,7 +17,7 @@ for t=1:no_of_orient
 			j1=j1-1;
 		end	
 		
-%%%%%%%%%%%%%%%% set the color wheel %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% set the color wheel %%%%%%%%%%%%%%%%%
 		x11=i1;
 		y11=j1;
 		switch cont,
@@ -196,6 +195,8 @@ figure(Hf);
 imshow(im1);
 hold on;
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%5 test for image 2%%%%%%%%%%%%%%%%%%%%5
 % lineLength = 600;
 % angle = 157;
@@ -272,17 +273,14 @@ hold on;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 
-[Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position1,small_line,Hdendro,Hf);
-%%save mem;
+[Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position1,Hdendro,Hf);
+
 [variance]=variance_calculation(mem,normalize_polar,pl_coordinate);
 
 [hv wv]=size(mem);
 
 [cluster_confidence]=confidence_assignment(variance,wv);
 percentage=20;
-% hndl.s2=uicontrol('parent', HtopCls,'Style', 'slider',...
-         % 'Min',0,'Max',100,'Value',20,...
-         % 'Position', [810 40 120 20],'Tag', 'thresholdCls','Callback', {@threshold_cluster});   % Uses cell array function handle callback
-                                    % % % Implemented as a subfunction with an argument
+
 show_top_clusters(cluster_confidence,mem,line_position1,im,percentage,HtopCls,pl_coordinate);
-click_dendro(mem,cluster_confidence,line_position1,small_line,cluster_xy,Hdendro,Hf,Zsin1);
+click_dendro(mem,cluster_confidence,line_position1,cluster_xy,Hdendro,Hf,Zsin1);

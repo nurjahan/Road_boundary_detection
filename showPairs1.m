@@ -1,13 +1,16 @@
-function showPairs(pairElem1)
+function showPairs1(pairElem1)
 
 persepectiveList_add=load('persepectiveList_add.txt');
 LineEndPoints=load('LineEndPoints.txt');
-meanLineRhoTh=load('meanLineRhoTh.txt');
 endpoints=load('endpoints.txt');
+
+%%rho=meanLineRhoTh(pairElem1,1);
+%%theta=meanLineRhoTh(pairElem1,2);
 
 pairElem1Add=find(persepectiveList_add(:,1)==pairElem1);
 disp('Total pairs:');
 len=length(pairElem1Add);
+%%pairElem2=persepectiveList_add(pairElem1Add,2);
 disp(len);
 pairElem2=persepectiveList_add(pairElem1Add,2);
 Elem2_x1=(LineEndPoints( pairElem2,1));
@@ -18,9 +21,43 @@ Elem2_x2=(LineEndPoints( pairElem2,3));
 Elem2_x2=Elem2_x2';
 Elem2_y2=(LineEndPoints( pairElem2,4));
 Elem2_y2=Elem2_y2';
+% x0=0;
+% y0=0;
+% xw=293;
+% yh=220;
 
+% y_x0=(rho-(cos(theta)*x0))/sin(theta);
+% x_y0=(rho-(cos(theta)*y0))/sin(theta);
+% y_xw=(rho-(cos(theta)*xw))/sin(theta);
+% x_yh=(rho-(cos(theta)*yh))/sin(theta);
+% i=1;
+% if y_x0>=0 & y_x0<=yh
+	% endpoints(i)=x0;
+	% endpoints(i+1)=y_x0;
+	% i=i+2;
+% end
+
+% if x_y0>=0 & x_y0<=xw
+	% endpoints(i)=x_y0;
+	% endpoints(i+1)=y0;
+	% i=i+2;
+% end
+
+% if y_xw>=0 & y_xw<=yh
+	% endpoints(i)=xw;
+	% endpoints(i+1)=y_xw;
+	% i=i+2;
+% end
+	
+% if x_yh>=0 & x_yh<=yh
+	% endpoints(i)=x_yh;
+	% endpoints(i+1)=yh;
+	% i=i+2;
+% end
+		
+	
 f=figure;
-i=imread('340.jpg');
+i=imread('1.jpg');
 figure(f);
 imshow(i);
 hold on;
@@ -41,23 +78,10 @@ for i=1:length(pairElem1Add)
 	figure(f);
 	line([Elem2_x1(i) Elem2_x2(i)],[Elem2_y1(i) Elem2_y2(i)],'Color','r','LineWidth',2);
 end
-
-hlElem2_x1=(endpoints( pairElem2,1));
-hlElem2_x1=hlElem2_x1';
-hlElem2_y1=(endpoints( pairElem2,2));
-hlElem2_y1=hlElem2_y1';
-hlElem2_x2=(endpoints( pairElem2,3));
-hlElem2_x2=hlElem2_x2';
-hlElem2_y2=(endpoints( pairElem2,4));
-hlElem2_y2=hlElem2_y2';
-
-f1=figure;
-i=imread('1.jpg');
-figure(f1);
-imshow(i);
-hold on;
-for i=1:length(pairElem1Add)
-	figure(f1);
-	line([hlElem2_x1(i) hlElem2_x2(i)],[hlElem2_y1(i) hlElem2_y2(i)],'Color','r','LineWidth',2);
-end
+disp(endpoints(pairElem1,1));
+disp(endpoints(pairElem1,2));
+disp(endpoints(pairElem1,5));
+disp(endpoints(pairElem1,6));
+figure(f);
+line([endpoints(pairElem1,1) endpoints(pairElem1,3)],[endpoints(pairElem1,2) endpoints(pairElem1,4)],'Color','y','LineWidth',2);
 

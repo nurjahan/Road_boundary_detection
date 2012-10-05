@@ -1,7 +1,6 @@
 function [probability] = pr_B(im,radius,no_of_orient,nbins)
 %
 % Calculate the probability of boundary using brightness Gradient.
-% Do not consider color & texture
 %
 %	INPUT
 %		im				image

@@ -48,7 +48,9 @@ for j=1:len
 	x=(line_position1(nonOvr_add,1));
 	y=(line_position1(nonOvr_add,2));
 	check_ang=(line_position1(nonOvr_add,5));
+	i1=1;
 	if(check_ang(1)~=0)
+		i1=1;
 		iterNum=5;thDist=5;thInlrRatio=.5;
 		l=length(x);
 		for i=1:l
@@ -67,26 +69,112 @@ for j=1:len
 		min_x=(rho-(cos(theta)*min_y))/sin(theta);
 		max_x=(rho-(cos(theta)*max_y))/sin(theta);
 		LineEndPoints(j,1:4)=[min_x min_y max_x max_y];
+		
+		x0=0;
+		y0=0;
+		xw=293;
+		yh=220;
+
+		y_x0=round((rho-(sin(theta)*x0))/cos(theta));
+		x_y0=round((rho-(cos(theta)*y0))/sin(theta));
+		y_xw=round((rho-(sin(theta)*xw))/cos(theta));
+		x_yh=round((rho-(cos(theta)*yh))/sin(theta));
+		rh_th(j,1:2)=[rho theta];
+		
+		if y_x0>0 & y_x0<yh
+			endpoints(j,i1)=x0;
+			endpoints(j,i1+1)=y_x0;
+			i1=i1+2;
+			
+		end
+
+		if x_y0>0 & x_y0<xw
+			%%if y_x0~=0 & x_y0~=0
+				endpoints(j,i1)=x_y0;
+				endpoints(j,i1+1)=y0;
+				i1=i1+2;
+			%%end
+			
+		end
+
+		if y_xw>0 & y_xw<yh
+			endpoints(j,i1)=xw;
+			endpoints(j,i1+1)=y_xw;
+			i1=i1+2;
+			
+		end
+		
+		if x_yh>0 & x_yh<xw
+			
+			endpoints(j,i1)=x_yh;
+			endpoints(j,i1+1)=yh;
+			i1=i1+2;
+			
+		end
+		
+		if y_x0==0 | x_y0==0
+			endpoints(j,i1)=x0;
+			endpoints(j,i1+1)=y_x0;
+			i1=i1+2;
+		end
+		
+		if x_y0==293 | y_xw==0
+			endpoints(j,i1)=x_y0;
+			endpoints(j,i1+1)=y0;
+			i1=i1+2;
+		end
+		
+		if x_yh==0 | y_x0==220
+			endpoints(j,i1)=x_yh;
+			endpoints(j,i1+1)=yh;
+			i1=i1+2;
+		end
+		
+		if x_yh==293 | y_xw==220
+			endpoints(j,i1)=x_yh;
+			endpoints(j,i1+1)=yh;
+			i1=i1+2;
+		end
+			
+		%%meanLineRhoTh(j,1:2)=[rho theta];
 		% LineEndPoints(j,1)=min_x;
 		% LineEndPoints(j,2)=min_y;
 		% LineEndPoints(j,3)=max_x;
 		% LineEndPoints(j,4)=max_y;
 	
-	else  %% for horizontal line
+	elseif (check_ang(1)==0)  %% for horizontal line
+		i1=1;
 		min_y=y(1); 
 		max_y=y(1);
 		min_x=min(x);
 		max_x=max(x);
 		LineEndPoints(j,1:4)=[min_x min_y max_x max_y];
+		%%meanLineRhoTh(j,1:2)=[0 0];
 		% LineEndPoints(j,2)=min_y;
 		% LineEndPoints(j,3)=max_x;
 		% LineEndPoints(j,4)=max_y;
+		endpoints(j,i1)=0;
+		endpoints(j,i1+1)=0;
+		endpoints(j,i1+2)=0;
+		endpoints(j,i1+3)=0;
 	end	
 end
 
+fid1 = fopen('rh_th.txt', 'wt'); % Open for writing
+	for i=1:size(rh_th,1)
+		fprintf(fid1, '%d ', rh_th(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);	
 fid1 = fopen('LineEndPoints.txt', 'wt'); % Open for writing
 	for i=1:size(LineEndPoints,1)
 		fprintf(fid1, '%d ', LineEndPoints(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);		
+fid1 = fopen('endpoints.txt', 'wt'); % Open for writing
+	for i=1:size(endpoints,1)
+		fprintf(fid1, '%d ', endpoints(i,:));
 		fprintf(fid1, '\n');
 	end
 	fclose(fid1);	

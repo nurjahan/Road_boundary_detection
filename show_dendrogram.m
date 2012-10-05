@@ -1,4 +1,4 @@
-function [Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position,small_line,Hdendro,Hf)
+function [Zsin1,H,T,PREM,mem,cluster_xy] = show_dendrogram(normalize_polar,line_position,Hdendro,Hf)
 
 D1 = pdist(normalize_polar,'euclidean');
 Zsin1 = linkage(D1,'average');
@@ -58,6 +58,19 @@ for i=1:nh
 end
 
 for_mem(mem);
+
+cl_len=length(mem);
+for j=1:cl_len
+	 cl_mem= cell2mat(mem(j));
+	 cl_polar_rho{j}=[(normalize_polar(cl_mem,1))];
+	 cl_polar_theta{j}=[(normalize_polar(cl_mem,1))];
+end
+
+
+save cl_polar_rho;
+save cl_polar_theta;
+
+
 %%variance(mem);
 
 %%%%%%%%%%%%%%%%%%%%%

@@ -56,6 +56,7 @@ HtopCls =figure('position', [50 50 1550 900],...
          'Position', [810 40 120 20],'Tag', 'thresholdCls','Callback', {@threshold_cluster});   % Uses cell array function handle callback
                                     % % Implemented as a subfunction with an argument
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

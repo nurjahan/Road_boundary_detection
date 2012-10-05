@@ -9,7 +9,7 @@ function [probability,probability_i1,max_theta_degree,im1] = pr_G(cbo, eventdata
 
 [h,w,n] = size(im);
 idiag = norm([h w]);
-radius=0.04*idiag;
+radius=0.02*idiag;
 no_of_orient=8; 
 no_of_bin=32;
 

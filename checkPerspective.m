@@ -1,7 +1,6 @@
 function checkPerspective(im)
 
 	LineEndPoints=load('LineEndPoints.txt');
-	%%i=imread('340.jpg');
 	[imageH imageW n]=size(im);
 	flag=0;
 	imageBottomLn_x1=0;
@@ -35,7 +34,8 @@ function checkPerspective(im)
                 length1 = tmp;
             end
 			[state, intesectPt] = findLineSegmentIntersection(l1_x1, l1_y1, l1_x2, l1_y2, l2_x1, l2_y1, l2_x2, l2_y2);
-           
+			XIntersectionPoint(pair1,pair2)=(intesectPt(1));
+			YIntersectionPoint(pair1,pair2)=(intesectPt(2));
                 %%// check direction
 			if (state == 0 | state == 1)  %%intersection exist
                 [tt,gPt1]=findLineSegmentIntersection(l1_x1, l1_y1, l1_x2, l1_y2, imageBottomLn_x1,imageBottomLn_y1, imageBottomLn_x2, imageBottomLn_y2);
@@ -82,7 +82,7 @@ function checkPerspective(im)
 					end	
 					if ((x*perspectiveVec_x+y*perspectiveVec_y) > 0) 
 						flag=1;
-						disp('Yes');
+						%%disp('Yes');
                         %%pair.vanishingPt = new Point((int) intesectPt[0], (int) intesectPt[1]);
 						pair_vanishingPt = [intesectPt(1) intesectPt(2)]; 
                         persepectiveList_add(p_add,1)=pair_add1;
@@ -103,6 +103,18 @@ if flag==1
 	fclose(fid1);
 end	
 
+fid1 = fopen('XIntersectionPoint.txt', 'wt'); % Open for writing
+	for i=1:size(XIntersectionPoint,1)
+		fprintf(fid1, '%d ', XIntersectionPoint(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);
+fid1 = fopen('YIntersectionPoint.txt', 'wt'); % Open for writing
+	for i=1:size(YIntersectionPoint,1)
+		fprintf(fid1, '%d ', YIntersectionPoint(i,:));
+		fprintf(fid1, '\n');
+	end
+	fclose(fid1);	
 disp('Total Number of perspective pairs');
 disp(p_add-1);
 %%%%%%%%%% to show perspetive lines %%%%%%%%%%%%%%%%%%%%
@@ -114,5 +126,5 @@ imshow(im);
 hold on;
 for i=1:l
 	figure(f);
-	line([LineEndPoints(perspetiveLine(i),1) LineEndPoints(perspetiveLine(i),3)],[LineEndPoints(perspetiveLine(i),2) LineEndPoints(perspetiveLine(i),4)]);
+	line([LineEndPoints(perspetiveLine(i),1) LineEndPoints(perspetiveLine(i),3)],[LineEndPoints(perspetiveLine(i),2) LineEndPoints(perspetiveLine(i),4)],'LineWidth',2);
 end

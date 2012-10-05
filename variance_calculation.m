@@ -1,9 +1,10 @@
 function [variance]=variance_calculation(mem,normalize_polar,pl_coordinate)
 
 [h w]=size(mem);
-[update_mem]=update_mem_cluster(mem,w,pl_coordinate);
+%%[update_mem]=update_mem_cluster(mem,w,pl_coordinate);
 for i=1:w
-	variance(i,1)=var(normalize_polar(update_mem{i},1));
+	%%variance(i,1)=var(normalize_polar(update_mem{i},1));
+	variance(i,1)=var(normalize_polar(mem{i},1));
 	if variance(i,1)<=1e-10
 		variance(i,1)=0;
 	end	

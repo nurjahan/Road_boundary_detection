@@ -23,7 +23,7 @@ for i=1:n-1
 	end	
 end
 
-%%%%%%%%% Non overlaping top clusters %%%%%%%%%%%%%
+%%%%%%%%% Non overlapping top clusters %%%%%%%%%%%%%
 nonOvr_top_cls=find(child(k)~=1);
 length(nonOvr_top_cls);
 len=length(nonOvr_top_cls);
@@ -34,7 +34,7 @@ nonOvr_mem1 = cell2mat(nonOvr_mem);
 x=(line_position1(nonOvr_mem1,1));
 y=(line_position1(nonOvr_mem1,2));
 
-%%%%%%%%%%% Overlaping top clusters %%%%%%%%%%%%%%%%
+%%%%%%%%%%% Overlapping top clusters %%%%%%%%%%%%%%%%
 Ovr_top_cls=find(child(k)~=0);
 length(Ovr_top_cls);
 len1=length(Ovr_top_cls);
@@ -46,7 +46,7 @@ x1=(line_position1(Ovr_mem1,1));
 y1=(line_position1(Ovr_mem1,2));
 
 %%%%%%%%% show all top clusters %%%%%%%%%%%%%%%%
-%%HOvrCls=figure;
+%HOvrCls=figure;
 figure(HOvrCls);
 imshow(im);
 hold on;
@@ -57,7 +57,7 @@ figure(HOvrCls);
 plot(x1,y1,'ro');
 hold on;
 
-%%%%%%%%% show non overlaping top clusters by connect each one with line%%%%%%%%%%%%%
+%%%%%%%%% show non overlapping top clusters by connect each one with line%%%%%%%%%%%%%
 figure(HtopCls);
 imshow(im);
 hold on;
@@ -73,6 +73,7 @@ for j=1:len
 	x2=(line_position1(nonOvr_mem1,1));
 	y2=(line_position1(nonOvr_mem1,2));
 	[sortx2,x2Indx]=sort(x2);
+	%%temp(j,:)=
 	sorty2=y2(x2Indx);
 	figure(HtopCls);
 	%%figure(HNonOvrCls);
@@ -135,3 +136,5 @@ fid1 = fopen('nonOverlap_child.txt', 'wt'); % Open for writing
 		fprintf(fid1, '\n');
 	end
 	fclose(fid1);	
+
+save_nonOver(nonOvr_mem);	
